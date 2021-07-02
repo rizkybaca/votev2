@@ -7,12 +7,13 @@ class Menu extends CI_Controller
 	{
 		parent::__construct();
 		is_logged_in();
+		$this->load->model('Menu_model', 'menu');
 	}
 
 	public function index()
 	{
 		$data['title']='Menu Management';
-		$data['user']=$this->db->get_where('user', ['nim' => $this->session->userdata('nim')])->row_array();
+		// $data['user']=$this->db->get_where('user', ['nim' => $this->session->userdata('nim')])->row_array();
 
 		$data['menu']=$this->db->get('user_menu')->result_array();
 
@@ -36,8 +37,6 @@ class Menu extends CI_Controller
 		$data['title']='Submenu Management';
 		$data['user']=$this->db->get_where('user', ['nim' => $this->session->userdata('nim')])->row_array();
 
-
-		$this->load->model('Menu_model', 'menu');
 		$data['submenu']=$this->menu->getSubMenu();
 		$data['menu']=$this->db->get('user_menu')->result_array();
 
@@ -61,10 +60,43 @@ class Menu extends CI_Controller
 				'is_active' => $this->input->post('is_active')
 			];
 			$this->db->insert('user_sub_menu', $data);
-			$this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">New submenu added.</div>');
+			$this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">New submenu added!</div>');
 			redirect('menu/submenu');
 		}
 
+	}
+
+	public function delete($id)
+	{
+		$this->menu->deleteMenu($id);
+		$this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Menu deleted!</div>');
+		redirect('menu');
+	}
+
+	public function edit($id)
+	{
+		$data['title']='Form Edit Menu Management';
+		$data['user']=$this->menu->getUserBySession();
+		$data['menu']=$this->menu->getMenuById($id);
+		
+		$this->form_validation->set_rules('title', 'Title', 'required');
+		$this->form_validation->set_rules('menu_id', 'Menu', 'required');
+		$this->form_validation->set_rules('url', 'URL', 'required');
+		$this->form_validation->set_rules('icon', 'Icon', 'required');
+		
+		if ($this->form_validation->run()==FALSE) {
+			$this->load->view('templates/header', $data);
+			$this->load->view('templates/sidebar', $data);
+			$this->load->view('templates/topbar', $data);
+			$this->load->view('menu/menu-edit', $data);
+			$this->load->view('templates/footer');
+		}
+		else{
+			$this->Menu_model->ubahDataMahasiswa($id);
+			$this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Menu updated!</div>');
+			redirect('mahasiswa');
+		}
+		
 	}
 
 

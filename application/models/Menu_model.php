@@ -16,4 +16,19 @@ class Menu_model extends CI_Model
 				";
 		return $this->db->query($q)->result_array();
 	}
+
+	public function deleteMenu($id)
+	{
+		$this->db->delete('user_menu', ['id'=>$id]);
+	}
+
+	public function getMenuById($id)
+	{
+		return $this->db->get_where('user_menu', ['id'=>$id])->row_array();
+	}
+
+	public function getUserBySession()
+	{
+		return $data['user']=$this->db->get_where('user', ['nim' => $this->session->userdata('nim')])->row_array();
+	}
 }
