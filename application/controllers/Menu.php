@@ -13,7 +13,7 @@ class Menu extends CI_Controller
 	public function index()
 	{
 		$data['title']='Menu Management';
-		// $data['user']=$this->db->get_where('user', ['nim' => $this->session->userdata('nim')])->row_array();
+		$data['user']=$this->menu->getUserBySession();
 
 		$data['menu']=$this->db->get('user_menu')->result_array();
 
@@ -34,6 +34,7 @@ class Menu extends CI_Controller
 
 	public function submenu()
 	{
+		$data['user']=$this->menu->getUserBySession();
 		$data['title']='Submenu Management';
 		$data['user']=$this->db->get_where('user', ['nim' => $this->session->userdata('nim')])->row_array();
 
@@ -79,10 +80,7 @@ class Menu extends CI_Controller
 		$data['user']=$this->menu->getUserBySession();
 		$data['menu']=$this->menu->getMenuById($id);
 		
-		$this->form_validation->set_rules('title', 'Title', 'required');
-		$this->form_validation->set_rules('menu_id', 'Menu', 'required');
-		$this->form_validation->set_rules('url', 'URL', 'required');
-		$this->form_validation->set_rules('icon', 'Icon', 'required');
+		$this->form_validation->set_rules('menu', 'Menu', 'required|trim');
 		
 		if ($this->form_validation->run()==FALSE) {
 			$this->load->view('templates/header', $data);
@@ -92,11 +90,55 @@ class Menu extends CI_Controller
 			$this->load->view('templates/footer');
 		}
 		else{
-			$this->Menu_model->ubahDataMahasiswa($id);
+			$this->menu->editDataMenu($id);
 			$this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Menu updated!</div>');
-			redirect('mahasiswa');
+			redirect('menu');
+		}	
+	}
+
+	public function editSubmenu($id)
+	{
+		$data['title']='Form Edit Submenu Management';
+		$data['user']=$this->menu->getUserBySession();
+		$data['submenu']=$this->menu->getSubmenuById($id);
+		$data['menu']=$this->menu->getAllMenu();
+		
+		$this->form_validation->set_rules('title', 'Submenu Title', 'required|trim');;
+		$this->form_validation->set_rules('url', 'Submenu URL', 'required|trim');
+		$this->form_validation->set_rules('icon', 'Submenu URL', 'required|trim');
+		
+		if ($this->form_validation->run()==FALSE) {
+			$this->load->view('templates/header', $data);
+			$this->load->view('templates/sidebar', $data);
+			$this->load->view('templates/topbar', $data);
+			$this->load->view('menu/submenu-edit', $data);
+			$this->load->view('templates/footer');
+		}
+		else{
+			$this->menu->editDataMenu($id);
+			$this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Menu updated!</div>');
+			redirect('menu');
 		}
 		
+	}
+
+	public function changeactive()
+	{
+		$tangkap=$this->input->post('tangkap');
+		$submenu=$this->input->post('submenu');
+
+		$data=[
+			'is_active'=>$tangkap
+		];
+
+		$result=$this->db->get_where('user_sub_menu', ['id' => $submenu]);
+
+		if ($result->num_rows()==1) {
+			$this->db->where('id', $submenu);
+			$this->db->update('user_sub_menu', $data);
+		}
+
+		// $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Access changed!</div>');
 	}
 
 
