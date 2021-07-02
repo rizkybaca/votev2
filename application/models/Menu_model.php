@@ -54,13 +54,18 @@ class Menu_model extends CI_Model
 	public function editDataSubmenu($id)
 	{
 		$data=[
-			"title"=>$this->input->htmlspecialchars(post('title', true)),
-			"menu_id"=>$this->input->htmlspecialchars(post('menu_id', true)),
-			"url"=>$this->input->htmlspecialchars(post('url', true)),
-			"icon"=>$this->input->htmlspecialchars(post('icon', true)),
+			"title"=>$this->input->post('title', true),
+			"menu_id"=>$this->input->post('menu_id', true),
+			"url"=>$this->input->post('url', true),
+			"icon"=>$this->input->post('icon', true)
 		];
 		$this->db->where('id', $this->input->post('id'));
 		$this->db->update('user_sub_menu', $data);
+	}
+
+	public function deleteDataSubmenu($id)
+	{
+		$this->db->delete('user_sub_menu', ['id'=>$id]);
 	}
 
 }

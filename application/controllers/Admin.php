@@ -7,14 +7,15 @@ class Admin extends CI_Controller
 	{
 		parent::__construct();
 		is_logged_in();
-		$this->load->model('Admin_model');
+		$this->load->model('Admin_model', 'admin');
 		
 	}
 
 	public function index()
 	{
+
 		$data['title']='Dashboard';
-		$data['user']=$this->db->get_where('user', ['nim' => $this->session->userdata('nim')])->row_array();
+		$data['user']=$this->admin->getUserBySession();
 
 		$this->load->view('templates/header', $data);
 		$this->load->view('templates/sidebar', $data);
@@ -26,8 +27,8 @@ class Admin extends CI_Controller
 	public function role()
 	{
 		$data['title']='Role';
+		$data['user']=$this->admin->getUserBySession();
 		$data['role']=$this->db->get('user_role')->result_array();
-		$data['user']=$this->db->get_where('user', ['nim' => $this->session->userdata('nim')])->row_array();
 
 		$this->form_validation->set_rules('role', 'Role', 'required|trim');
 
@@ -45,10 +46,39 @@ class Admin extends CI_Controller
 		
 	}
 
+	public function roleEdit($id)
+	{
+		$data['title']='Form Edit Role';
+		$data['user']=$this->admin->getUserBySession();
+		$data['role']=$this->admin->getRoleById($id);
+		
+		$this->form_validation->set_rules('role', 'Role', 'required|trim');
+		
+		if ($this->form_validation->run()==FALSE) {
+			$this->load->view('templates/header', $data);
+			$this->load->view('templates/sidebar', $data);
+			$this->load->view('templates/topbar', $data);
+			$this->load->view('admin/role-edit', $data);
+			$this->load->view('templates/footer');
+		}
+		else{
+			$this->admin->editDataRole($id);
+			$this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Role updated!</div>');
+			redirect('admin/role');
+		}	
+	}
+
+	public function roleDelete($id)
+	{
+		$this->admin->deleteRole($id);
+		$this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Role deleted!</div>');
+		redirect('admin/role');
+	}
+
 	public function roleaccess($role_id)
 	{
 		$data['title']='Role Access';
-		$data['user']=$this->db->get_where('user', ['nim' => $this->session->userdata('nim')])->row_array();
+		$data['user']=$this->admin->getUserBySession();
 		$data['role']=$this->db->get_where('user_role', ['id'=>$role_id])->row_array();
 
 		$this->db->where('id !=', 1);
@@ -84,7 +114,7 @@ class Admin extends CI_Controller
 
 	public function editCandidate()
 	{
-
+		$data['user']=$this->admin->getUserBySession();
 		if ($this->form_validation->run()==FALSE) {
 			$this->load->view('templates/header', $data);
 			$this->load->view('templates/sidebar', $data);
@@ -118,7 +148,6 @@ class Admin extends CI_Controller
 
 			}
 
-
 			$this->db->set('name', $name);
 			$this->db->where('nim', $nim);
 			$this->db->update('user');
@@ -126,7 +155,6 @@ class Admin extends CI_Controller
 			$this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Your profile has been updated!</div>');
 			redirect('user');
 		}
-
 	}
 
 

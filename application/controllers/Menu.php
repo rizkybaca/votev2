@@ -115,11 +115,18 @@ class Menu extends CI_Controller
 			$this->load->view('templates/footer');
 		}
 		else{
-			$this->menu->editDataMenu($id);
-			$this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Menu updated!</div>');
-			redirect('menu');
+			$this->menu->editDataSubmenu($id);
+			$this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Submenu updated!</div>');
+			redirect('menu/submenu');
 		}
 		
+	}
+
+	public function deleteSubmenu($id)
+	{
+		$this->menu->deleteDataSubmenu($id);
+		$this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Submenu deleted!</div>');
+		redirect('menu/submenu');
 	}
 
 	public function changeactive()

@@ -11,7 +11,7 @@
 
         		<?= $this->session->flashdata('message'); ?>
 
-        		<form action="<?= base_url('menu/submenu'); ?>" method="POST">
+        		<form action="" method="POST">
         			<input type="hidden" name="id" value="<?= $submenu['id']; ?>">
 		         	<div class="form-group">
 						    <input type="text" class="form-control" id="title" name="title" placeholder="Submenu title" value="<?= $submenu['title']; ?>">
