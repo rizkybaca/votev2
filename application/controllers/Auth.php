@@ -44,7 +44,7 @@ class Auth extends CI_Controller {
 					if ($user['role_id']==1) {
 						redirect('admin/index');
 					} else {
-						redirect('voter/index');
+						redirect('user');
 					}
 				} else {
 					$this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Password salah!</div>');
@@ -88,8 +88,7 @@ class Auth extends CI_Controller {
 				'nim'=>htmlspecialchars($this->input->post('nim', true)),
 				'password'=>htmlspecialchars(password_hash($this->input->post('password1', true), PASSWORD_DEFAULT)),
 				'role_id'=>1,
-				'is_active'=>1,
-				'date_created'=>time()
+				'is_active'=>1
 			];
 			$this->db->insert('user', $data);
 			$this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Selamat! Akunmu telah dibuat. Silakan login!</div>');
