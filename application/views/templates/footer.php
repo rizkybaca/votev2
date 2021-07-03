@@ -49,6 +49,17 @@
     <!-- Custom scripts for all pages-->
     <script src="<?= base_url('assets/'); ?>js/sb-admin-2.min.js"></script>
 
+    <!-- datatables -->
+    <!-- <script>
+      $(document).ready(function() {
+          $('#example').DataTable();
+      } );
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+    <script  src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap4.min.js"></script> -->
+
     <script>
         $('.custom-file-input').on('change', function(){
           let fileName=$(this).val().split('\\').pop();

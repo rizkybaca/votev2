@@ -26,7 +26,7 @@
 						      <th scope="col">Name</th>
 						      <th scope="col">Vision</th>
 						      <th scope="col">Mision</th>
-						      <th scope="col">Action</th>
+						      <th scope="col" id="act">Action</th>
 						    </tr>
 						  </thead>
 						  <tbody>
@@ -38,12 +38,11 @@
 						      </td>
 						      <td><?= $c['nim']; ?></td>
 						      <td><?= $c['name']; ?></td>
-						      <td><?= $c['vision']; ?></td>
-						      <td><?= $c['mission']; ?></td>
-						      <td>
-						      	<a href="<?= base_url('admin/roleaccess/').$c['id']; ?>" class="badge badge-warning">access</a>
-						      	<a href="" class="badge badge-success">edit</a>
-						      	<a href="" class="badge badge-danger">hapus</a>
+						      <td><?= nl2br($c['vision']); ?></td>
+						      <td><?= nl2br($c['mission']); ?></td>
+						      <td id="act">
+						      	<a href="<?= base_url('votes/editcandidate/').$c['id']; ?>" class="badge badge-success">edit</a>
+						      	<a href="" class="badge badge-danger">delete</a>
 						      </td>
 						    </tr>
 						    <?php endforeach; ?>

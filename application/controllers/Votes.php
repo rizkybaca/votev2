@@ -62,34 +62,32 @@ class Votes extends CI_Controller
     $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">New Candidate added!</div>');
     redirect('votes/candidate');
     }
-
   }
 
+  public function editcandidate($id) {
+    $data['title']='Edit Candidate';
+    $data['user']=$this->votes->getUserBySession();
+    $data['candidate']=$this->votes->getCandidateById($id);
 
+    $this->form_validation->set_rules('nim', 'NIM', 'required|trim|is_unique[candidate.nim]|numeric');
+    $this->form_validation->set_rules('name', 'Full name', 'required|trim');
+    $this->form_validation->set_rules('vision', 'Vision', 'required|trim');
+    $this->form_validation->set_rules('mission', 'Mission', 'required|trim');
+    
+    if ($this->form_validation->run()==FALSE) {
+      $this->load->view('templates/header', $data);
+      $this->load->view('templates/sidebar', $data);
+      $this->load->view('templates/topbar', $data);
+      $this->load->view('votes/candidate-edit', $data);
+      $this->load->view('templates/footer');
+    } else {
+      
+      $this->votes->editDataCandidate();
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+      $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">New Candidate updated!</div>');
+      redirect('votes/candidate');
+    }
+  }
 
 	public function voter()
 	{

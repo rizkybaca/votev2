@@ -59,6 +59,13 @@
 
             <?php endforeach; ?>
 
+            <!-- Nav Item - Logout -->
+            <li class="nav-item">
+                <a class="nav-link" href="<?= base_url('auth/logout'); ?>" data-toggle="modal" data-target="#logoutModal">
+                    <i class="fas fa-sign-out-alt fa-fw"></i>
+                    <span>Logout</span></a>
+            </li>
+
             <!-- Sidebar Toggler (Sidebar) -->
             <div class="text-center d-none d-md-inline">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
