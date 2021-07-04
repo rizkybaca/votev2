@@ -18,7 +18,6 @@
 
     <div class="row">
     	<div class="col-lg-6">
-
     		<?= $this->session->flashdata('message'); ?>
     		<table class="table table-hover">
 				  <thead>
@@ -51,6 +50,6 @@
 				</table>
     	</div>
     </div>
-
+	</div>
 </div>
 <!-- /.container-fluid -->

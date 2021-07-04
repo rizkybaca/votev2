@@ -68,7 +68,7 @@ class Auth extends CI_Controller {
 
 		$this->form_validation->set_rules('name', 'Name', 'required|trim');
 		$this->form_validation->set_rules('nim', 'NIM', 'required|trim|is_unique[user.nim]', [
-			'is_unique' => 'Nim has already registered!'
+			'is_unique' => 'NIM has already registered!'
 		]);
 		$this->form_validation->set_rules('password1', 'Password', 'required|trim|min_length[4]|matches[password2]', [
 			'matches' => 'Password dont match!',
@@ -88,7 +88,8 @@ class Auth extends CI_Controller {
 				'nim'=>htmlspecialchars($this->input->post('nim', true)),
 				'password'=>htmlspecialchars(password_hash($this->input->post('password1', true), PASSWORD_DEFAULT)),
 				'role_id'=>1,
-				'is_active'=>1
+				'is_active'=>1,
+				'status'=>0
 			];
 			$this->db->insert('user', $data);
 			$this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Selamat! Akunmu telah dibuat. Silakan login!</div>');
@@ -110,7 +111,7 @@ class Auth extends CI_Controller {
 
 	public function blocked()
 	{
-		$data['title']='My Profile';
+		$data['title']='Blocked';
 		$this->load->view('auth/blocked',$data);
 
 	}
