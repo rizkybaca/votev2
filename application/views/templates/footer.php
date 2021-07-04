@@ -60,6 +60,24 @@
     <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
     <script  src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap4.min.js"></script> -->
 
+    <script type="text/javascript">
+    function change()
+    {
+      var x = document.getElementById('password').type;
+
+      if (x == 'password')
+      {
+        document.getElementById('password').type = 'text';
+        document.getElementById('mybutton').innerHTML;
+      }
+      else
+      {
+        document.getElementById('password').type = 'password';
+        document.getElementById('mybutton').innerHTML;
+      }
+    }
+</script>
+
     <script>
         $('.custom-file-input').on('change', function(){
           let fileName=$(this).val().split('\\').pop();

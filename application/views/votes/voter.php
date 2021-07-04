@@ -38,7 +38,7 @@
 				      <td><?= $v['name']; ?></td>
 				      <td>
 				      	<a href="<?= base_url('votes/voteredit/').$v['id']; ?>" class="badge badge-success">edit</a>
-				      	<a href="<?= base_url('votes/voterdelete/').$v['id']; ?>" class="badge badge-danger">delete</a>
+				      	<a onclick="return confirm('Are you sure?');" href="<?= base_url('votes/voterdelete/').$v['id']; ?>" class="badge badge-danger">delete</a>
 				      </td>
 				    </tr>
 				    <?php endforeach; ?>

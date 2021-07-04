@@ -73,7 +73,7 @@ class Votes extends CI_Controller
     $data['user']=$this->votes->getUserBySession();
     $data['candidate']=$this->votes->getCandidateById($id);
 
-    $this->form_validation->set_rules('nim', 'NIM', 'required|trim');
+    $this->form_validation->set_rules('nim', 'NIM', 'required|trim|numeric');
     $this->form_validation->set_rules('name', 'Full name', 'required|trim');
     $this->form_validation->set_rules('vision', 'Vision', 'required|trim');
     $this->form_validation->set_rules('mission', 'Mission', 'required|trim');
@@ -187,6 +187,36 @@ class Votes extends CI_Controller
       echo $this->upload->display_errors();
     }
     
+  }
+
+  public function voterEdit($id)
+  {
+    $data['title']='Edit Voter';
+    $data['user']=$this->votes->getUserBySession();
+    $data['voter']=$this->votes->getVoterById($id);
+    
+    $this->form_validation->set_rules('nim', 'NIM', 'required|trim|numeric');
+    $this->form_validation->set_rules('name', 'Full name', 'required|trim');
+    $this->form_validation->set_rules('password', 'Password', 'required|trim');
+
+    if ($this->form_validation->run()==FALSE) {
+      $this->load->view('templates/header', $data);
+      $this->load->view('templates/sidebar', $data);
+      $this->load->view('templates/topbar', $data);
+      $this->load->view('votes/voter-edit', $data);
+      $this->load->view('templates/footer');
+    } else {
+      $this->votes->editDataVoter($id);
+      $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Voter updated!</div>');
+      redirect('votes/voter');
+    }  
+  }
+
+  public function voterDelete($id)
+  {
+    $this->votes->deleteDataVoter($id);
+    $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Voter deleted!</div>');
+    redirect('votes/voter');
   }
 
 
