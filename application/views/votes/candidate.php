@@ -16,7 +16,7 @@
         		<?= $this->session->flashdata('message'); ?>
 
         		<a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newCandidateModal">Add New Candidate</a>
-
+        		<div class="table-responsive-xl">
         		<table class="table table-hover">
 						  <thead>
 						    <tr>
@@ -42,15 +42,15 @@
 						      <td><?= nl2br($c['mission']); ?></td>
 						      <td id="act">
 						      	<a href="<?= base_url('votes/editcandidate/').$c['id']; ?>" class="badge badge-success">edit</a>
-						      	<a href="" class="badge badge-danger">delete</a>
+						      	<a onclick="return confirm('Are you sure?');" href="<?= base_url('votes/deletecandidate/').$c['id']; ?>" class="badge badge-danger">delete</a>
 						      </td>
 						    </tr>
 						    <?php endforeach; ?>
 						  </tbody>
 						</table>
+						</div>
         	</div>
         </div>
-
     </div>
     <!-- /.container-fluid -->
 

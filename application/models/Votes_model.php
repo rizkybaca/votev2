@@ -32,42 +32,9 @@ class Votes_model extends CI_Model
 		return $this->db->get_where('candidate', ['id'=>$id])->row_array();
 	}
 
-	public function editDataCandidate()
-	{
-		$idn 			= $this->input->post('id', true);
-    $nim      = $this->input->post('nim', true);
-    $name     = $this->input->post('name', true);
-    $vision   = $this->input->post('vision', true);
-    $mission  = $this->input->post('mission', true);
-    
-    $upload_image=$_FILES['image']['name'];
-
-    if ($upload_image) {
-      $config['allowed_types'] = 'gif|jpg|png';
-      $config['max_size']     = '2048';
-      $config['upload_path'] = './assets/img/candidate/';
-      $this->load->library('upload', $config);
-
-      if ($this->upload->do_upload('image')) {
-        $old_image=$data['candidate']['image'];
-
-        if ($old_image != 'default.jpg') {
-          unlink(FCPATH.'assets/img/candidate/'.$old_image);
-        }
-
-        $new_image=$this->upload->data('file_name');
-        $this->db->set('image', $new_image);
-      } else {
-        echo $this->upload->display_errors();
-      }
-    }
-    
-    $this->db->set('nim', $nim);
-    $this->db->set('name', $name);
-    $this->db->set('vision', $vision);
-    $this->db->set('mission', $mission);
-    $this->db->where('id', $idn);
-    $this->db->update('candidate');
+	public function deleteDataCandidate($id)
+	{ 
+    $this->db->delete('candidate', ['id'=>$id]);
 	}
 
 

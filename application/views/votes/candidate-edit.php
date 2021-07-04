@@ -6,7 +6,7 @@
 
         <div class="row">
         	<div class="col-lg-8">
-        		<?= form_open_multipart('votes/editcandidate');?>
+        		<form action="" method="POST" enctype="multipart/form-data">
         			<input type="hidden" name="id" value="<?= $candidate['id']; ?>">
 
         			<div class="form-group row">

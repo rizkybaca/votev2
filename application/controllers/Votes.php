@@ -52,11 +52,11 @@ class Votes extends CI_Controller
       }
 
     $data=[
-      'nim'=>$this->input->post('nim'),
-      'name'=>$this->input->post('name'),
+      'nim'=>$this->input->post('nim', true),
+      'name'=>$this->input->post('name', true),
       'image'=>$new_image,
-      'vision'=>$this->input->post('vision'),
-      'mission'=>$this->input->post('mission')
+      'vision'=>$this->input->post('vision', true),
+      'mission'=>$this->input->post('mission', true)
     ];
     $this->db->insert('candidate', $data);
     $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">New Candidate added!</div>');
@@ -64,12 +64,12 @@ class Votes extends CI_Controller
     }
   }
 
-  public function editcandidate($id) {
+  public function editCandidate($id) {
     $data['title']='Edit Candidate';
     $data['user']=$this->votes->getUserBySession();
     $data['candidate']=$this->votes->getCandidateById($id);
 
-    $this->form_validation->set_rules('nim', 'NIM', 'required|trim|is_unique[candidate.nim]|numeric');
+    $this->form_validation->set_rules('nim', 'NIM', 'required|trim');
     $this->form_validation->set_rules('name', 'Full name', 'required|trim');
     $this->form_validation->set_rules('vision', 'Vision', 'required|trim');
     $this->form_validation->set_rules('mission', 'Mission', 'required|trim');
@@ -82,11 +82,54 @@ class Votes extends CI_Controller
       $this->load->view('templates/footer');
     } else {
       
-      $this->votes->editDataCandidate();
+      $nim      = $this->input->post('nim', true);
+      $name     = $this->input->post('name', true);
+      $vision   = $this->input->post('vision', true);
+      $mission  = $this->input->post('mission', true);
+      
+      $upload_image=$_FILES['image']['name'];
 
-      $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">New Candidate updated!</div>');
+      if ($upload_image) {
+        $config['allowed_types'] = 'gif|jpg|png';
+        $config['max_size']     = '2048';
+        $config['upload_path'] = './assets/img/candidate/';
+        $this->load->library('upload', $config);
+
+        if ($this->upload->do_upload('image')) {
+          $old_image=$data['candidate']['image'];
+
+          if ($old_image != 'default.jpg') {
+            unlink(FCPATH.'assets/img/candidate/'.$old_image);
+          }
+
+          $new_image=$this->upload->data('file_name');
+          $this->db->set('image', $new_image);
+        } else {
+          echo $this->upload->display_errors();
+        }
+      }
+      $this->db->set('nim', $nim);
+      $this->db->set('name', $name);
+      $this->db->set('vision', $vision);
+      $this->db->set('mission', $mission);
+      $this->db->where('id', $this->input->post('id'));
+      $this->db->update('candidate');
+
+      $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Candidate updated!</div>');
       redirect('votes/candidate');
     }
+  }
+
+  public function deleteCandidate($id)
+  {
+    $data['candidate']=$this->votes->getCandidateById($id);
+    $old_image=$data['candidate']['image'];
+    if ($old_image != 'default.jpg') {
+      unlink(FCPATH.'assets/img/candidate/'.$old_image);
+    }
+    $this->votes->deleteDataCandidate($id);
+    $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Candidate deleted!</div>');
+    redirect('votes/candidate');
   }
 
 	public function voter()
