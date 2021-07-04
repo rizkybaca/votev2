@@ -1,6 +1,10 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
+require_once APPPATH . 'third_party/Spout/Autoloader/autoload.php';
+
+use Box\Spout\Reader\Common\Creator\ReaderEntityFactory;
+
 class Votes extends CI_Controller
 {
 	public function __construct()
@@ -147,47 +151,42 @@ class Votes extends CI_Controller
 
 	public function import()
   {
-    if ( isset($_POST['upload'])) {
+    $config['upload_path']='./uploads/';
+    $config['allowed_types']='xlsx|xls';
+    $config['file_name']='doc'.time();
+    $this->load->library('upload', $config);
 
-      $file = $_FILES['file']['tmp_name'];
+    if ($this->upload->do_upload('file')) {
+      $file=$this->upload->data();
+      $reader=ReaderEntityFactory::createXLSXReader();
 
-      // Medapatkan ekstensi file csv yang akan diimport.
-      $ekstensi  = explode('.', $_FILES['file']['name']);
+      $reader->open('uploads/'.$file['file_name']);
 
-      // Tampilkan peringatan jika submit tanpa memilih menambahkan file.
-      if (empty($file)) {
-        echo 'File tidak boleh kosong!';
-      } else {
-        // Validasi apakah file yang diupload benar-benar file csv.
-        if (strtolower(end($ekstensi)) === 'csv' && $_FILES["file"]["size"] > 0) {
-
-          $i = 0;
-          $handle = fopen($file, "r");
-          while (($row = fgetcsv($handle, 2048))) {
-          $i++;
-          if ($i == 1) continue;
-
-          // Data yang akan disimpan ke dalam databse
-          $data = [
-            'nim' => $row[1],
-            'password' => $row[2],
-            'name' => $row[3],
-            'role_id' => $row[4],
-            'is_active' => $row[5],
-          ];
-
-          // Simpan data ke database.
-          $this->votes->save($data);
+      foreach ($reader->getSheetIterator() as $sheet) {
+        $numRow=1;
+          foreach ($sheet->getRowIterator() as $row) {
+            if ($numRow>1) {
+              $data=[
+                'nim'=>$row->getCellAtIndex(1),
+                'password'=>$row->getCellAtIndex(2),
+                'name'=>$row->getCellAtIndex(3),
+                'role_id'=>$row->getCellAtIndex(4),
+                'is_active'=>$row->getCellAtIndex(5),
+              ];
+              $this->votes->importDataVoter($data);
+            }
+            $numRow++;
           }
-
-          fclose($handle);
-          redirect('votes/voter');
-
-        } else {
-          echo 'Format file tidak valid!';
-        }
+          $reader->close();
+          unlink('uploads/'.$file['file_name']);
+          $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Import Success!</div>');
+          redirect('votes/voter');   
       }
-      }
+
+    } else {
+      echo $this->upload->display_errors();
+    }
+    
   }
 
 

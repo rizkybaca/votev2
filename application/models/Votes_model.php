@@ -37,5 +37,13 @@ class Votes_model extends CI_Model
     $this->db->delete('candidate', ['id'=>$id]);
 	}
 
+	public function importDataVoter($data)
+	{
+		$count=count($data);
+		if ($count>0) {
+			$this->db->replace('user', $data);
+		}
+	}
+
 
 }

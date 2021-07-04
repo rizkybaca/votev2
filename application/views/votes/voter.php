@@ -7,9 +7,8 @@
     <div class="row">
     	<div class="col-lg-3 mb-3">
     		<?= form_open_multipart('votes/import');?>
-    			<input type="hidden" name="a" value="tes">
 	    		<div class="custom-file mb-2">
-				    <input type="file" class="custom-file-input" id="file" name="file">
+				    <input type="file" class="custom-file-input" id="file" name="file" accept=".xlsx, .xls">
 				    <label class="custom-file-label" for="file">Upload csv voter</label>
 				  </div>
 				  <button class="btn btn-primary" type="submit" name="upload">Upload</button>
