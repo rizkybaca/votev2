@@ -209,7 +209,7 @@ class Admin extends CI_Controller
 	{
 		$data=['is_active'=>0];
 
-		$this->db->where('role_id', "4");
+		$this->db->where('role_id', "2");
 		$this->db->update('user', $data);
 
 		$this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Voter now is nonactive!</div>');

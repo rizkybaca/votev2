@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 05 Jul 2021 pada 02.23
+-- Waktu pembuatan: 05 Jul 2021 pada 12.41
 -- Versi server: 10.4.19-MariaDB
 -- Versi PHP: 7.4.20
 
@@ -65,11 +65,13 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `nim`, `password`, `name`, `role_id`, `is_active`, `status`) VALUES
-(23, '5181311006', '$2y$10$PMOXl5MeeBRlxuS/iW4twOmaIoGQwCou9phMgU0Xqyv8P2I3exMBC', 'rizky nur', 1, 1, 1),
-(28, '5181311007', '$2y$10$SRtjo6hAKMH1OO8W2mB30uafV1zxOuUpRJK3Ezo9Ao12lH1RVntwq', 'lavi', 2, 1, 1),
-(29, '5181311008', '$2y$10$s.wGhmOaZvtKKtFG9/UXfOjiI9hRwn1q1swRJsZkFz3AhQwMyV29S', 'kevin', 2, 0, 0),
-(30, '5181311009', '$2y$10$1tkitJG0Rj2Mtk23cV668.Gykd7rvYpMc03/76b0W6Ruz1wOQJ62C', 'awan', 2, 0, 0),
-(31, '5181311010', '$2y$10$Ngc2Exlg4FTYZJIkH6efeeTJwX6MTID42Q.vz/HdP6c9cZe2QOqRW', 'aji', 2, 0, 0);
+(23, '5181311006', '$2y$10$PMOXl5MeeBRlxuS/iW4twOmaIoGQwCou9phMgU0Xqyv8P2I3exMBC', 'rizky nur', 1, 1, 0),
+(40, '5181311007', '$2y$10$oiiqZmh8RiBh5BxfzdstN.kdKHkqJTH6RNNkGq7A0ZjMV/QsV0.s.', 'Lavianus Wangge', 2, 0, 0),
+(41, '5181311008', '$2y$10$jZPB260LgJDaKU2XaJP2eOnFKACuTba6tyYQo144VkDi3adlFZ1De', 'Kevin Itsnaen', 2, 0, 0),
+(42, '5181311009', '$2y$10$lCYzNdokTcPBQlZArKUlH.8l5SQhb5eV3jPiszRObKXRrE4l3y0za', 'Yodi Irawan', 2, 0, 0),
+(43, '5181311010', '$2y$10$U8yeKDUzMKjFCtB8mGKYAOL88Kylj/UZ1GnBxLcFWjLqOWSkOIXy2', 'Ajilim', 2, 0, 0),
+(44, '5181311023', '$2y$10$sylqnRriqMXv6npRFNXfoe9NbF.aabsl.fqNF5sFfqaZlooLVjxNy', 'Awalif G.I.S.', 4, 0, 0),
+(45, '5181311011', '$2y$10$6j4Eq6.4pAxR0I66KMwZO.9LGShvh2OXQVfHFudaqgWdMe0e75vjq', 'Fifi Melinda', 4, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -99,7 +101,8 @@ INSERT INTO `user_access_menu` (`id`, `menu_id`, `role_id`) VALUES
 (10, 4, 4),
 (11, 6, 1),
 (12, 6, 2),
-(13, 6, 4);
+(13, 6, 4),
+(14, 7, 1);
 
 -- --------------------------------------------------------
 
@@ -121,7 +124,8 @@ INSERT INTO `user_menu` (`id`, `menu`) VALUES
 (2, 'User'),
 (3, 'Menu'),
 (4, 'Votes'),
-(6, 'Voting');
+(6, 'Voting'),
+(7, 'Committees');
 
 -- --------------------------------------------------------
 
@@ -171,7 +175,9 @@ INSERT INTO `user_sub_menu` (`id`, `menu_id`, `title`, `url`, `icon`, `is_active
 (11, 4, 'Candidates', 'votes/candidate', 'fas fa-fw fa-user-astronaut', 1),
 (17, 4, 'Voter', 'votes/voter', 'fas fa-fw fa-users', 1),
 (18, 6, 'Voting', 'voting', 'fas fa-fw fa-vote-yea', 1),
-(19, 6, 'Quick Count', 'voting/quickcount', 'fas fa-fw fa-chart-pie', 1);
+(19, 6, 'Quick Count', 'voting/quickcount', 'fas fa-fw fa-chart-pie', 1),
+(20, 7, 'Committees', 'committees', 'fas fa-fw fa-user-friends', 1),
+(21, 1, 'Activate User', 'admin/activate', 'fas fa-fw fa-user-clock', 1);
 
 -- --------------------------------------------------------
 
@@ -187,13 +193,6 @@ CREATE TABLE `vote` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data untuk tabel `vote`
---
-
-INSERT INTO `vote` (`id`, `candidate_id`, `user_id`, `date_voted`) VALUES
-(2, 5, 28, 1625437175);
-
---
 -- Indexes for dumped tables
 --
 
@@ -207,7 +206,8 @@ ALTER TABLE `candidate`
 -- Indeks untuk tabel `user`
 --
 ALTER TABLE `user`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `nim` (`nim`);
 
 --
 -- Indeks untuk tabel `user_access_menu`
@@ -253,19 +253,19 @@ ALTER TABLE `candidate`
 -- AUTO_INCREMENT untuk tabel `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT untuk tabel `user_access_menu`
 --
 ALTER TABLE `user_access_menu`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT untuk tabel `user_menu`
 --
 ALTER TABLE `user_menu`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT untuk tabel `user_role`
@@ -277,13 +277,13 @@ ALTER TABLE `user_role`
 -- AUTO_INCREMENT untuk tabel `user_sub_menu`
 --
 ALTER TABLE `user_sub_menu`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT untuk tabel `vote`
 --
 ALTER TABLE `vote`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
