@@ -34,7 +34,7 @@ class Auth extends CI_Controller {
 		$user=$this->db->get_where('user', ['nim'=>$nim])->row_array();
 
 		if ($user) {
-			if ($user['is_active']==1) {
+	
 				if (password_verify($password, $user['password'])) {
 					$data=[
 						'nim'=>$user['nim'],
@@ -50,10 +50,7 @@ class Auth extends CI_Controller {
 					$this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Password salah!</div>');
 					redirect('auth');
 				}
-			} else {
-				$this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Belum waktunya akses!.</div>');
-				redirect('auth');
-			}
+
 		} else {
 			$this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">NIM belum terdaftar! Hubungi pantita untuk lebih lanjut.</div>');
 			redirect('auth');
@@ -84,11 +81,11 @@ class Auth extends CI_Controller {
 			$this->load->view('templates/auth_footer');
 		} else {
 			$data=[
-				'name'=>htmlspecialchars($this->input->post('name', true)),
 				'nim'=>htmlspecialchars($this->input->post('nim', true)),
 				'password'=>htmlspecialchars(password_hash($this->input->post('password1', true), PASSWORD_DEFAULT)),
+				'name'=>htmlspecialchars($this->input->post('name', true)),
 				'role_id'=>1,
-				'is_active'=>1,
+				'is_active'=>0,
 				'status'=>0
 			];
 			$this->db->insert('user', $data);

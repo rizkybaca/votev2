@@ -167,11 +167,13 @@ class Votes extends CI_Controller
           foreach ($sheet->getRowIterator() as $row) {
             if ($numRow>1) {
               $data=[
-                'nim'=>$row->getCellAtIndex(1),
-                'password'=>$row->getCellAtIndex(2),
-                'name'=>$row->getCellAtIndex(3),
-                'role_id'=>$row->getCellAtIndex(4),
-                'is_active'=>$row->getCellAtIndex(5),
+                'nim'=>htmlspecialchars($row->getCellAtIndex(1)),
+                'password'=>htmlspecialchars(password_hash($row->getCellAtIndex(2), PASSWORD_DEFAULT)),
+                'name'=>htmlentities($row->getCellAtIndex(3)),
+                'role_id'=>2,
+                'is_active'=>0,
+                'status'=>0
+
               ];
               $this->votes->importDataVoter($data);
             }

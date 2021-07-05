@@ -13,7 +13,40 @@ class Voting_model extends CI_Model
 
 	public function getAllCandidate()
 	{
+
 		return $this->db->get('candidate')->result_array();
+	}
+
+	public function getCandidateStat()
+	{
+		$q="SELECT `vote`.*, `candidate`.`name`
+					FROM `vote` JOIN `candidate`
+					ON `vote`.`candidate_id` = `candidate`.`id`
+					ORDER BY `candidate`.`id` ASC 					
+				";
+		return $this->db->query($q)->result_array();
+	}
+
+	public function getVoteStat()
+	{
+		$q="SELECT
+					COUNT(`candidate_id`) AS `voting`
+					FROM `vote`
+					ORDER BY `candidate_id` ASC 					
+				";
+		return $this->db->query($q)->result_array();
+	}
+
+
+
+	public function getCandidateById($id)
+	{
+		return $this->db->get_where('candidate', ['id'=>$id])->row_array();
+	}
+
+	public function getAllVote()
+	{
+		return $this->db->get('vote')->result_array();
 	}
 	
 }

@@ -46,8 +46,61 @@
     <!-- Core plugin JavaScript-->
     <script src="<?= base_url('assets/'); ?>vendor/jquery-easing/jquery.easing.min.js"></script>
 
+
     <!-- Custom scripts for all pages-->
     <script src="<?= base_url('assets/'); ?>js/sb-admin-2.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="<?= base_url('assets/'); ?>vendor/chart.js/Chart.min.js"></script>
+    <script src="<?= base_url('assets/'); ?>js/demo/chart-pie-demo.js"></script>
+
+    <!-- chart js pie -->
+    <script type="text/javascript">
+
+      // Pie Chart Example
+        var ctx = document.getElementById("myPieChart");
+        var myPieChart = new Chart(ctx, {
+          type: 'doughnut',
+          data: {
+            labels: [
+              <?php if (count($candidate)>0) {
+                foreach ($candidate as $v){
+                  echo "'".$v['name']."',";
+                }
+              } ?>
+            ],
+            datasets: [{
+              data: [
+                <?php if (count($vote)>0) {
+                foreach ($vote as $v){
+                  echo $v['voting'].",";
+                }
+              } ?>
+              ],
+              backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
+              hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
+              hoverBorderColor: "rgba(234, 236, 244, 1)",
+            }],
+          },
+          options: {
+            maintainAspectRatio: false,
+            tooltips: {
+              backgroundColor: "rgb(255,255,255)",
+              bodyFontColor: "#858796",
+              borderColor: '#dddfeb',
+              borderWidth: 1,
+              xPadding: 15,
+              yPadding: 15,
+              displayColors: false,
+              caretPadding: 10,
+            },
+            legend: {
+              display: true
+            },
+            cutoutPercentage: 80,
+          },
+        });
+    </script>
 
     <!-- datatables -->
     <!-- <script>
@@ -61,73 +114,73 @@
     <script  src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap4.min.js"></script> -->
 
     <script type="text/javascript">
-    function change()
-    {
-      var x = document.getElementById('password').type;
+      function change()
+      {
+        var x = document.getElementById('password').type;
 
-      if (x == 'password')
-      {
-        document.getElementById('password').type = 'text';
-        document.getElementById('mybutton').innerHTML;
+        if (x == 'password')
+        {
+          document.getElementById('password').type = 'text';
+          document.getElementById('mybutton').innerHTML;
+        }
+        else
+        {
+          document.getElementById('password').type = 'password';
+          document.getElementById('mybutton').innerHTML;
+        }
       }
-      else
-      {
-        document.getElementById('password').type = 'password';
-        document.getElementById('mybutton').innerHTML;
-      }
-    }
-</script>
+    </script>
 
     <script>
-        $('.custom-file-input').on('change', function(){
-          let fileName=$(this).val().split('\\').pop();
-          $(this).next('.custom-file-label').addClass("selected").html(fileName);
-        });
-        
-        $('.form-check-input').on('click', function() {
-          const menuId=$(this).data('menu');
-          const roleId=$(this).data('role');
+      $('.custom-file-input').on('change', function(){
+        let fileName=$(this).val().split('\\').pop();
+        $(this).next('.custom-file-label').addClass("selected").html(fileName);
+      });
+      
+      $('.form-check-input').on('click', function() {
+        const menuId=$(this).data('menu');
+        const roleId=$(this).data('role');
 
-          $.ajax({
-            url: "<?= base_url('admin/changeaccess'); ?>",
-            type: 'post',
-            data: {
-              menuId: menuId,
-              roleId: roleId
-            },
-            success: function(){
-              document.location.href="<?= base_url('admin/roleaccess/'); ?>"+roleId;
-            }
-          });
-
+        $.ajax({
+          url: "<?= base_url('admin/changeaccess'); ?>",
+          type: 'post',
+          data: {
+            menuId: menuId,
+            roleId: roleId
+          },
+          success: function(){
+            document.location.href="<?= base_url('admin/roleaccess/'); ?>"+roleId;
+          }
         });
 
-        $('#check-submenu').on('click', function() {
-          const submenu=$(this).data('submenu');            
-          var tangkap;
-          if ($('#check-submenu').is(":checked"))
-        {
-          tangkap = '1';
-        }else{
-            tangkap = '0';
-        }
+      });
 
-        console.log(submenu)
-        console.log(tangkap)
+      $('#check-submenu').on('click', function() {
+        const submenu=$(this).data('submenu');            
+        var tangkap;
+        if ($('#check-submenu').is(":checked"))
+      {
+        tangkap = '1';
+      }else{
+          tangkap = '0';
+      }
 
-          $.ajax({
-            url: "<?= base_url('menu/changeactive'); ?>",
-            type: 'post',
-            data: {
-            submenu: submenu,
-              tangkap: tangkap
-            },
-            success: function(){
-              // document.location.href="<?= base_url('menu/submenu'); ?>";
-            }
-          });
+      console.log(submenu)
+      console.log(tangkap)
 
+        $.ajax({
+          url: "<?= base_url('menu/changeactive'); ?>",
+          type: 'post',
+          data: {
+          submenu: submenu,
+            tangkap: tangkap
+          },
+          success: function(){
+            // document.location.href="<?= base_url('menu/submenu'); ?>";
+          }
         });
+
+      });
     </script>
 
 </body>
