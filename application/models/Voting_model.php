@@ -19,11 +19,10 @@ class Voting_model extends CI_Model
 
 	public function getCandidateStat()
 	{
-		$q="SELECT `vote`.*, `candidate`.`name`
-					FROM `vote` JOIN `candidate`
-					ON `vote`.`candidate_id` = `candidate`.`id`
-					ORDER BY `candidate`.`id` ASC 					
-				";
+		$q="SELECT `name`
+				FROM `candidate`
+				ORDER BY `id` ASC
+		";
 		return $this->db->query($q)->result_array();
 	}
 

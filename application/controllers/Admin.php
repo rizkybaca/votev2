@@ -16,12 +16,17 @@ class Admin extends CI_Controller
 
 		$data['title']='Dashboard';
 		$data['user']=$this->admin->getUserBySession();
+		$data['v']=$this->admin->getVoterStat();
+		
 
-		$this->load->view('templates/header', $data);
-		$this->load->view('templates/sidebar', $data);
-		$this->load->view('templates/topbar', $data);
+		$data['candidate']=$this->admin->getCandidateStat();
+		$data['vote']=$this->admin->getVoteStat();
+
+		$this->load->view('templates/chart_header', $data);
+		$this->load->view('templates/chart_sidebar', $data);
+		$this->load->view('templates/chart_topbar', $data);
 		$this->load->view('admin/index', $data);
-		$this->load->view('templates/footer');
+		$this->load->view('templates/chart_footer');
 	}
 
 	public function role()

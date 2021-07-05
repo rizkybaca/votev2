@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 05 Jul 2021 pada 12.41
+-- Waktu pembuatan: 05 Jul 2021 pada 17.10
 -- Versi server: 10.4.19-MariaDB
 -- Versi PHP: 7.4.20
 
@@ -66,10 +66,10 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`id`, `nim`, `password`, `name`, `role_id`, `is_active`, `status`) VALUES
 (23, '5181311006', '$2y$10$PMOXl5MeeBRlxuS/iW4twOmaIoGQwCou9phMgU0Xqyv8P2I3exMBC', 'rizky nur', 1, 1, 0),
-(40, '5181311007', '$2y$10$oiiqZmh8RiBh5BxfzdstN.kdKHkqJTH6RNNkGq7A0ZjMV/QsV0.s.', 'Lavianus Wangge', 2, 0, 0),
-(41, '5181311008', '$2y$10$jZPB260LgJDaKU2XaJP2eOnFKACuTba6tyYQo144VkDi3adlFZ1De', 'Kevin Itsnaen', 2, 0, 0),
-(42, '5181311009', '$2y$10$lCYzNdokTcPBQlZArKUlH.8l5SQhb5eV3jPiszRObKXRrE4l3y0za', 'Yodi Irawan', 2, 0, 0),
-(43, '5181311010', '$2y$10$U8yeKDUzMKjFCtB8mGKYAOL88Kylj/UZ1GnBxLcFWjLqOWSkOIXy2', 'Ajilim', 2, 0, 0),
+(40, '5181311007', '$2y$10$oiiqZmh8RiBh5BxfzdstN.kdKHkqJTH6RNNkGq7A0ZjMV/QsV0.s.', 'Lavianus Wangge', 2, 1, 0),
+(41, '5181311008', '$2y$10$jZPB260LgJDaKU2XaJP2eOnFKACuTba6tyYQo144VkDi3adlFZ1De', 'Kevin Itsnaen', 2, 1, 0),
+(42, '5181311009', '$2y$10$lCYzNdokTcPBQlZArKUlH.8l5SQhb5eV3jPiszRObKXRrE4l3y0za', 'Yodi Irawan', 2, 1, 1),
+(43, '5181311010', '$2y$10$U8yeKDUzMKjFCtB8mGKYAOL88Kylj/UZ1GnBxLcFWjLqOWSkOIXy2', 'Ajilim', 2, 1, 1),
 (44, '5181311023', '$2y$10$sylqnRriqMXv6npRFNXfoe9NbF.aabsl.fqNF5sFfqaZlooLVjxNy', 'Awalif G.I.S.', 4, 0, 0),
 (45, '5181311011', '$2y$10$6j4Eq6.4pAxR0I66KMwZO.9LGShvh2OXQVfHFudaqgWdMe0e75vjq', 'Fifi Melinda', 4, 0, 0);
 
@@ -193,6 +193,14 @@ CREATE TABLE `vote` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
+-- Dumping data untuk tabel `vote`
+--
+
+INSERT INTO `vote` (`id`, `candidate_id`, `user_id`, `date_voted`) VALUES
+(4, 6, 42, 1625496682),
+(5, 5, 43, 1625496758);
+
+--
 -- Indexes for dumped tables
 --
 
@@ -283,7 +291,7 @@ ALTER TABLE `user_sub_menu`
 -- AUTO_INCREMENT untuk tabel `vote`
 --
 ALTER TABLE `vote`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

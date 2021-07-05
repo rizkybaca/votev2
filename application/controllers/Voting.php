@@ -74,11 +74,11 @@ class Voting extends CI_Controller
 			$data['candidate']=$this->voting->getCandidateStat();
 			$data['vote']=$this->voting->getVoteStat();
 
-			$this->load->view('templates/header', $data);
-			$this->load->view('templates/sidebar', $data);
-			$this->load->view('templates/topbar', $data);
+			$this->load->view('templates/chart_header', $data);
+			$this->load->view('templates/chart_sidebar', $data);
+			$this->load->view('templates/chart_topbar', $data);
 			$this->load->view('voting/quick-count', $data);
-			$this->load->view('templates/footer', $data);
+			$this->load->view('templates/chart_footer', $data);
 		}	
 
 }

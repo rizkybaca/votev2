@@ -73,4 +73,33 @@ class Admin_model extends CI_Model
 		return $this->db->get_where('user', ['role_id'=>'2'])->result_array();
 	}
 
+	public function getVoterStat()
+	{
+		$q="SELECT
+					COUNT(`id`) AS `v`
+					FROM `user`
+					WHERE `role_id`=2
+				";
+		return $this->db->query($q)->row_array();
+	}
+
+	public function getCandidateStat()
+	{
+		$q="SELECT `name`
+				FROM `candidate`
+				ORDER BY `id` ASC
+		";
+		return $this->db->query($q)->result_array();
+	}
+
+	public function getVoteStat()
+	{
+		$q="SELECT
+					COUNT(`id`) AS `voting`
+					FROM `vote`
+					GROUP BY `candidate_id` 					
+				";
+		return $this->db->query($q)->result_array();
+	}
+
 }
