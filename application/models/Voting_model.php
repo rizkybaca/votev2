@@ -30,9 +30,9 @@ class Voting_model extends CI_Model
 	public function getVoteStat()
 	{
 		$q="SELECT
-					COUNT(`candidate_id`) AS `voting`
+					COUNT(`id`) AS `voting`
 					FROM `vote`
-					ORDER BY `candidate_id` ASC 					
+					GROUP BY `candidate_id` 					
 				";
 		return $this->db->query($q)->result_array();
 	}

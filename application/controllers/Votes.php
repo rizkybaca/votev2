@@ -199,7 +199,6 @@ class Votes extends CI_Controller
     
     $this->form_validation->set_rules('nim', 'NIM', 'required|trim|numeric');
     $this->form_validation->set_rules('name', 'Full name', 'required|trim');
-    $this->form_validation->set_rules('password', 'Password', 'required|trim');
 
     if ($this->form_validation->run()==FALSE) {
       $this->load->view('templates/header', $data);

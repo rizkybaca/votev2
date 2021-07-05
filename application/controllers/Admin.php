@@ -157,6 +157,65 @@ class Admin extends CI_Controller
 		}
 	}
 
+	public function activate()
+	{
+
+		$data['title']='Activate User';
+		$data['user']=$this->admin->getUserBySession();
+		$data['committees']=$this->admin->getAllCommittees();
+		$data['voter']=$this->admin->getAllVoter();
+
+		$this->load->view('templates/header', $data);
+		$this->load->view('templates/sidebar', $data);
+		$this->load->view('templates/topbar', $data);
+		$this->load->view('admin/activate-user', $data);
+		$this->load->view('templates/footer');
+	}
+
+	public function activateCommittees()
+	{
+		$data=['is_active'=>1];
+
+		$this->db->where('role_id', "4");
+		$this->db->update('user', $data);
+
+		$this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Committees now is active!</div>');
+		redirect('admin/activate');
+	}
+
+	public function nonActivateCommittees()
+	{
+		$data=['is_active'=>0];
+
+		$this->db->where('role_id', "4");
+		$this->db->update('user', $data);
+
+		$this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Committees now is nonactive!</div>');
+		redirect('admin/activate');
+	}
+
+	public function activateVoter()
+	{
+		$data=['is_active'=>1];
+
+		$this->db->where('role_id', "2");
+		$this->db->update('user', $data);
+
+		$this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Voter now is active!</div>');
+		redirect('admin/activate');
+	}
+
+	public function nonActivateVoter()
+	{
+		$data=['is_active'=>0];
+
+		$this->db->where('role_id', "4");
+		$this->db->update('user', $data);
+
+		$this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Voter now is nonactive!</div>');
+		redirect('admin/activate');
+	}
+
 
 
 }

@@ -54,12 +54,10 @@ class Votes_model extends CI_Model
 	{
 		$data=[
 			'nim'=>$this->input->post('nim', true),
-			'password'=>$this->input->post('password', true),
 			'name'=>$this->input->post('name', true)
 		];
 		$this->db->where('id', $this->input->post('id'));
 		$this->db->update('user', $data);
-
 	}
 
 	public function deleteDataVoter($id)
