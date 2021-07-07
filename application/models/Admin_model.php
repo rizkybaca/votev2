@@ -76,9 +76,18 @@ class Admin_model extends CI_Model
 	public function getVoterStat()
 	{
 		$q="SELECT
-					COUNT(`id`) AS `v`
+					COUNT(`id`) AS `voter`
 					FROM `user`
 					WHERE `role_id`=2
+				";
+		return $this->db->query($q)->row_array();
+	}
+
+	public function getAllCountVote()
+	{
+		$q="SELECT
+					COUNT(`id`) AS `voting`
+					FROM `vote`
 				";
 		return $this->db->query($q)->row_array();
 	}

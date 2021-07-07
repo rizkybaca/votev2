@@ -220,5 +220,38 @@ class Votes extends CI_Controller
     redirect('votes/voter');
   }
 
+  public function report()
+  {
+    $data['title']='Report';
+    $data['user']=$this->votes->getUserBySession();
+    $data['voting']=$this->votes->getAllDataVoting();;
+    $data['voter']=$this->votes->getAllVoter();
+    $this->load->view('templates/header', $data);
+    $this->load->view('templates/sidebar', $data);
+    $this->load->view('templates/topbar', $data);
+    $this->load->view('votes/report', $data);
+    $this->load->view('templates/footer');
+  }
+
+  public function exportVoting()
+  {
+    $mpdf = new \Mpdf\Mpdf();
+    $datauser=$this->votes->getUserBySession();
+    $datavoting=$this->votes->getAllDataVoting();
+    $datatotal=$this->votes->getVoteStat();
+    $data=$this->load->view('pdf/voting', ['voting'=>$datavoting, 'user'=>$datauser, 'count'=>$datatotal], true);
+    $mpdf->WriteHTML($data);
+    $mpdf->Output();
+  }
+
+  public function exportVoter()
+  {
+    $mpdf = new \Mpdf\Mpdf();
+    $datauser=$this->votes->getUserBySession();
+    $datavoter=$this->votes->getAllVoter();
+    $data=$this->load->view('pdf/voter', ['voter'=>$datavoter, 'user'=>$datauser], true);
+    $mpdf->WriteHTML($data);
+    $mpdf->Output();
+  }
 
 }

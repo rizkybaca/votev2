@@ -16,8 +16,8 @@ class Admin extends CI_Controller
 
 		$data['title']='Dashboard';
 		$data['user']=$this->admin->getUserBySession();
-		$data['v']=$this->admin->getVoterStat();
-		
+		$data['voter']=$this->admin->getVoterStat();
+		$data['voting']=$this->admin->getAllCountVote();
 
 		$data['candidate']=$this->admin->getCandidateStat();
 		$data['vote']=$this->admin->getVoteStat();

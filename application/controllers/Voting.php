@@ -70,6 +70,7 @@ class Voting extends CI_Controller
 		{
 			$data['title']='Quick Count';
 			$data['user']=$this->voting->getUserBySession();
+			$data['voting']=$this->voting->getAllVoteStat();
 
 			$data['candidate']=$this->voting->getCandidateStat();
 			$data['vote']=$this->voting->getVoteStat();

@@ -65,6 +65,24 @@ class Votes_model extends CI_Model
 		$this->db->delete('user', ['id'=>$id]);
 	}
 
+	public function getAllDataVoting()
+	{
+		$q="SELECT
+					COUNT(`vote`.`id`) AS `voting`, `candidate`.`name` AS `name`
+					FROM `vote` JOIN `candidate`
+					ON `vote`.`candidate_id` = `candidate`.`id`
+					GROUP BY `candidate_id` 					
+				";
+		return $this->db->query($q)->result_array();
+	}
 
+	public function getVoteStat()
+	{
+		$q="SELECT
+					COUNT(`id`) AS `total`
+					FROM `vote` 					
+				";
+		return $this->db->query($q)->row_array();
+	}
 
 }
